@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Mnasat.Models
 {
-    public enum Privilege { Admin,Employee,Customer}
+    public enum Privileges { Admin,Employee,Customer}
     public class Usr
     {
         public int UsrID { get; set; }
@@ -16,6 +16,6 @@ namespace Mnasat.Models
         [Index(IsUnique = true)]
         public String Username { get; set; }
         public String Password { get; set; }
-        public Privilege? Privilges { get; set; }
+        public Privileges? Privilege { get; set; }
     }
 }

@@ -12,11 +12,11 @@ namespace Mnasat.Models
         public String RequestDescription { get; set; }
         public RequestState? CurrentState { get; set; }
         public DateTime RequestDate { get; set; }
-        public Usr Customer { get; set; }
-        public Usr Admin { get; set; }
+        public int Customer { get; set; }
+        public int Admin { get; set; }
         public DateTime AssigningDate { get; set; }
-        public Team AssignedTeam { get; set; }
-        public Usr HandlingEmployee { get; set; }
+        public int AssignedTeam { get; set; }
+        public int HandlingEmployee { get; set; }
         public DateTime HandledDate { get; set; }
     }
 }
