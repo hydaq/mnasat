@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Mnasat.Models;
+using System.Web.Http.Results;
+using System.Web.Script.Serialization;
 
 namespace Mnasat.Controllers.API
 {
@@ -17,9 +19,16 @@ namespace Mnasat.Controllers.API
         private MnasatDb db = new MnasatDb();
 
         // GET: api/TeamMember
-        public IQueryable<TeamMember> GetTeamMembers()
+        public String GetTeamMembers()
         {
-            return db.TeamMembers;
+            var TeamMembersCollection = from joinTable in db.TeamMembers
+                                        join teamsTable in db.Teams on joinTable.TeamID equals teamsTable.TeamID
+                                        join usrsTable in db.Usrs on joinTable.MemberID equals usrsTable.UsrID
+                                        select new { TeamName = teamsTable.TeamName, Username = usrsTable.Username };
+
+            //return db.TeamMembers;
+            return new JavaScriptSerializer().Serialize(TeamMembersCollection.ToList());
+
         }
 
         // GET: api/TeamMember/5

@@ -8,7 +8,8 @@ namespace Mnasat.Models
     public class TeamMember
     {
         public int ID { get; set; }
-        public Usr MemberID { get; set; }
-        public Team TeamID { get; set; }
+        public int MemberID { get; set; }
+        public int TeamID { get; set; }
+        
     }
 }

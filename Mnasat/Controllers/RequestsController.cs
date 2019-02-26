@@ -42,19 +42,12 @@ namespace Mnasat.Controllers
         }
 
         // POST: Requests/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create( Request request)
+        public ActionResult Create([Bind(Include = "RequestID,RequestDescription,CurrentState,RequestDate,Customer,Admin,AssigningDate,AssignedTeam,HandlingEmployee,HandledDate")] Request request)
         {
-            //set initial values of request parameters
-            request.Customer = 3;
-            request.CurrentState = RequestState.Posted;
-            request.RequestDate = DateTime.Now;
-            request.AssigningDate = DateTime.Now;
-            request.HandledDate = DateTime.Now;
-            request.AssignedTeam = 0;
-            request.HandlingEmployee = 0;
-
             if (ModelState.IsValid)
             {
                 db.Requests.Add(request);
@@ -85,7 +78,7 @@ namespace Mnasat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "RequestID,RequestDescription,CurrentState,RequestDate,AssigningDate,HandledDate")] Request request)
+        public ActionResult Edit([Bind(Include = "RequestID,RequestDescription,CurrentState,RequestDate,Customer,Admin,AssigningDate,AssignedTeam,HandlingEmployee,HandledDate")] Request request)
         {
             if (ModelState.IsValid)
             {

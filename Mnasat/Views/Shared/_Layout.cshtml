@@ -21,10 +21,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
-                    <li>@Html.ActionLink("Teams", "Index", "Teams")</li>
-                    <li>@Html.ActionLink("Requests", "Index", "Requests")</li>
+                    @if (Session["user"] != null)
+                    {
+                        <li>@Html.ActionLink("Requests", "Index", "Requests")</li>
+                        if (((Mnasat.Models.Usr)Session["user"]).Privilege == Mnasat.Models.Privileges.Admin)
+                        {
+                            <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                            <li>@Html.ActionLink("Teams", "Index", "Teams")</li>
+                        }
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

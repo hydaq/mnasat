@@ -13,7 +13,6 @@ namespace Mnasat
         public static String GloboApiUrl = "http://localhost:16929/api/";
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
         }
         
     }

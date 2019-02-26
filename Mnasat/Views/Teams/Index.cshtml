@@ -8,8 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create") |
-    @Html.ActionLink("Assign Team Member", "Create", "TeamMembers")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -25,8 +24,9 @@
             @Html.DisplayFor(modelItem => item.TeamName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.TeamID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.TeamID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.TeamID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TeamID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TeamID })
         </td>
     </tr>
 }

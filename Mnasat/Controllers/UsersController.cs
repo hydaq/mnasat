@@ -7,11 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Mnasat.Models;
-using System.Net.Http;
 
 namespace Mnasat.Controllers
 {
-
     public class UsersController : Controller
     {
         private MnasatDb db = new MnasatDb();
@@ -19,37 +17,40 @@ namespace Mnasat.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            IEnumerable<Usr> usrs = null;
-            using (var client=new HttpClient())
-            {
-                client.BaseAddress = new Uri(Startup.GloboApiUrl);
-                var responseTask = client.GetAsync("usr");
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<IList<Usr>>();
-                    readTask.Wait();
-
-                    usrs = readTask.Result;
-                }
-                else //web api sent error response 
-                {
-                    return HttpNotFound();
-                }
-            }
-            return View(usrs);
-            
+            if (((Usr)Session["User"]).Privilege == Privileges.Admin)
+                return View(db.Usrs.ToList());
+            else
+                return RedirectToAction("Login");
         }
-        
+
+        // GET: Users/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Usr usr = db.Usrs.Find(id);
+            if (usr == null)
+            {
+                return HttpNotFound();
+            }
+            return View(usr);
+        }
+
         // GET: Users/Create
         public ActionResult Create()
         {
             return View();
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
 
         // POST: Users/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UsrID,Username,Password,Privilege")] Usr usr)
@@ -63,31 +64,19 @@ namespace Mnasat.Controllers
 
             return View(usr);
         }
-
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
-            Usr user = null;
-            using (var client=new HttpClient())
+            if (id == null)
             {
-                client.BaseAddress = new Uri(Startup.GloboApiUrl);
-                var responseTask = client.GetAsync("usr/"+id);
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<Usr>();
-                    readTask.Wait();
-                    user = readTask.Result;
-                }
-                else 
-                {
-                    //log response status here..
-                    return HttpNotFound();
-                }
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(user);
+            Usr usr = db.Usrs.Find(id);
+            if (usr == null)
+            {
+                return HttpNotFound();
+            }
+            return View(usr);
         }
 
         // POST: Users/Edit/5
