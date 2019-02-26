@@ -22,23 +22,9 @@
             @Html.DisplayNameFor(model => model.RequestDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Customer)
+            @Html.DisplayNameFor(model => model.CustomerName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Admin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AssigningDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AssignedTeam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HandlingEmployee)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HandledDate)
-        </th>
+        
         <th></th>
     </tr>
 
@@ -54,27 +40,10 @@
             @Html.DisplayFor(modelItem => item.RequestDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Customer)
+            @Html.DisplayFor(modelItem => item.CustomerName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Admin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssigningDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedTeam)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HandlingEmployee)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HandledDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RequestID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RequestID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RequestID })
+            @Html.ActionLink("Handle", "Handle", new { id=item.RequestID }) 
         </td>
     </tr>
 }

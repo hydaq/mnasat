@@ -48,6 +48,18 @@ namespace Mnasat.Controllers
             var CustomerRequests = from res in db.Requests where res.Customer == usr_id select res;
             return View(CustomerRequests.ToList());
         }
+        public ActionResult Handle(int? id)
+        {
+            Request req = db.Requests.Find(id);
+            Usr usr = (Usr)(Session["user"]);
+            req.CurrentState = RequestState.Handled;
+            req.HandlingEmployee = usr.UsrID;
+            req.HandlingEmployeeName = usr.Username;
+
+            db.SaveChanges();
+            
+            return RedirectToAction("Index");
+        }
         // GET: Requests/Details/5
         public ActionResult Details(int? id)
         {

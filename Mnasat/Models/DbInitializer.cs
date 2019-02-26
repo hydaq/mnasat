@@ -13,6 +13,7 @@ namespace Mnasat.Models
             {
                 new Usr { Username="Admin",Password="Admin",Privilege= Privileges.Admin},
                 new Usr { Username="Employee",Password="Emp",Privilege= Privileges.Employee},
+                new Usr { Username="Employee2",Password="Emp",Privilege= Privileges.Employee},
                 new Usr { Username="Customer",Password="Customer",Privilege= Privileges.Customer},
             };
 
@@ -24,7 +25,17 @@ namespace Mnasat.Models
                 new Team {TeamName="Falcons" },
                 new Team {TeamName="Fighters" }
             };
-            Teams.ForEach(input => context.Teams.Add(input));
+            Teams.ForEach(input1 => context.Teams.Add(input1));
+            context.SaveChanges();
+
+            var TeamMembers = new List<TeamMember>
+            {
+                new TeamMember {MemberID=2,TeamID=1 },
+                new TeamMember {MemberID=2,TeamID=2 },
+                new TeamMember {MemberID=3,TeamID=1 },
+                new TeamMember {MemberID=3,TeamID=3 }
+            };
+            TeamMembers.ForEach(input2 => context.TeamMembers.Add(input2));
             context.SaveChanges();
         }
     }
