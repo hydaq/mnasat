@@ -17,12 +17,21 @@ namespace Mnasat.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            if (((Usr)Session["User"]).Privilege == Privileges.Admin)
+            if ((Session["user"] != null) && ((Usr)Session["user"]).Privilege == Privileges.Admin)
+            {
                 return View(db.Usrs.ToList());
+            }
             else
-                return RedirectToAction("Login");
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
+        public ActionResult Logout()
+        {
+            Session["user"] = null;
+            return Redirect("../Home");
+        }
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
@@ -43,11 +52,28 @@ namespace Mnasat.Controllers
         {
             return View();
         }
+        [HttpGet]
         public ActionResult Login()
         {
-            return View();
+            if (Session["user"] != null)
+                return Redirect("../Home");
+            else
+                return View();
         }
-
+        [HttpPost]
+        public ActionResult Login(Usr usr)
+        {
+            var LoginResult = from resultant in db.Usrs where resultant.Username == usr.Username && resultant.Password == usr.Password select resultant;
+            if (LoginResult.ToList().Count>0)
+            {
+                Session["user"] = (Usr)LoginResult.ToList().First();
+                return Redirect("../Home");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

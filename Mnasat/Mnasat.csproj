@@ -214,6 +214,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Models\MnasatDb.cs" />
     <Compile Include="Models\Request.cs" />
     <Compile Include="Models\Team.cs" />
@@ -278,6 +279,9 @@
     <Content Include="Views\Requests\Edit.cshtml" />
     <Content Include="Views\Requests\Index.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Requests\ByCustomer.cshtml" />
+    <Content Include="Views\Requests\ByEmployee.cshtml" />
+    <Content Include="Views\Requests\AssignTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

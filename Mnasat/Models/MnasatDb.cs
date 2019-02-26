@@ -12,5 +12,7 @@ namespace Mnasat.Models
         public DbSet<Team> Teams { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<Request> Requests { get; set; }
+
+       
     }
 }

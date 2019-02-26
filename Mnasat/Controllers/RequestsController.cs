@@ -17,9 +17,37 @@ namespace Mnasat.Controllers
         // GET: Requests
         public ActionResult Index()
         {
-            return View(db.Requests.ToList());
+            if (((Usr)Session["user"]).Privilege == Privileges.Admin)
+            {
+                return View(db.Requests.ToList());
+            }
+            else if (((Usr)Session["user"]).Privilege == Privileges.Employee)
+            {
+                return RedirectToAction("ByEmployee");
+            }
+            else if (((Usr)Session["user"]).Privilege == Privileges.Customer)
+            {
+                return RedirectToAction("ByCustomer");
+            }
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
         }
-
+        [HttpGet]
+        public ActionResult ByEmployee()
+        {
+            int usr_id = ((Usr)Session["user"]).UsrID;
+            var Teams = from res1 in db.TeamMembers where res1.MemberID == usr_id select res1.TeamID;
+            var EmployeeRequests = from res in db.Requests where Teams.Contains(res.AssignedTeam) select res;
+            return View(EmployeeRequests.ToList());
+        }
+        public ActionResult ByCustomer()
+        {
+            int usr_id = ((Usr)Session["user"]).UsrID;
+            var CustomerRequests = from res in db.Requests where res.Customer == usr_id select res;
+            return View(CustomerRequests.ToList());
+        }
         // GET: Requests/Details/5
         public ActionResult Details(int? id)
         {
@@ -40,7 +68,25 @@ namespace Mnasat.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult AssignTask(int? id)
+        {
+            Session["task"] = id;
+            return View(db.Teams.ToList());
+        }
+        public ActionResult AssignConfirmed(int? id)
+        {
+            int request_id = (int)Session["task"];
+            Request req = db.Requests.Find(request_id);
+            Team team = db.Teams.Find(id);
+            req.AssignedTeam = team.TeamID;
+            req.AssignedTeamName = team.TeamName;
+            req.CurrentState = RequestState.Assigned;
 
+            db.SaveChanges();
+            Session["task"] = null;
+            return RedirectToAction("Index");
+        }
         // POST: Requests/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -48,6 +94,12 @@ namespace Mnasat.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "RequestID,RequestDescription,CurrentState,RequestDate,Customer,Admin,AssigningDate,AssignedTeam,HandlingEmployee,HandledDate")] Request request)
         {
+            request.CurrentState = RequestState.Posted;
+            request.AssigningDate = DateTime.Now;
+            request.HandledDate = DateTime.Now;
+            request.RequestDate = DateTime.Now;
+            request.Customer = ((Usr)(Session["user"])).UsrID;
+            request.CustomerName = ((Usr)(Session["user"])).Username;
             if (ModelState.IsValid)
             {
                 db.Requests.Add(request);

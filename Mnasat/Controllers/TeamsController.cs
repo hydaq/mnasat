@@ -19,7 +19,6 @@ namespace Mnasat.Controllers
         {
             return View(db.Teams.ToList());
         }
-
         // GET: Teams/Details/5
         public ActionResult Details(int? id)
         {

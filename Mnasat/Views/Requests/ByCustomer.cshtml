@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<Mnasat.Models.Request>
 
 @{
-    ViewBag.Title = "Requests";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Requests</h2>
+<h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -35,15 +38,7 @@
             @Html.DisplayFor(modelItem => item.RequestDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CurrentState)  @if (item.CurrentState == Mnasat.Models.RequestState.Assigned)
-            { @Html.DisplayFor(modelItem => item.AssignedTeamName) }
-            else if (item.CurrentState == Mnasat.Models.RequestState.Handled)
-            { @Html.DisplayFor(modelItem => item.AssignedTeamName)
-              @Html.DisplayFor(modelItem => item.HandlingEmployeeName) }
-        </td>
-        <td>
-            @Html.ActionLink("Assign to Team","AssignTask",new { id=item.RequestID}) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RequestID })
+            @Html.DisplayFor(modelItem => item.CurrentState)
         </td>
     </tr>
 }
